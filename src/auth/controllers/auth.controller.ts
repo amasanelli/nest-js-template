@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiHeader,
   ApiOkResponse,
   ApiTags,
@@ -14,8 +15,8 @@ import { ResponseUserDto } from 'src/users/dtos/response-user.dto';
 import { User } from 'src/users/entities/user.entity';
 import { RequestLoginDto } from '../dtos/request-login.dto';
 import { ResponseLoginDto } from '../dtos/response-login.dto';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
+import { RequestLoginDtoGuard } from '../guards/request-login-dtoguard';
 import { AuthService } from '../services/auth.service';
 
 @ApiTags('auth')
@@ -23,13 +24,14 @@ import { AuthService } from '../services/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiBody({ type: RequestLoginDto })
   @ApiOkResponse({
     type: ResponseLoginDto,
     description: ApiDocsDescriptions.LOGIN_OK,
   })
   @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @NoJWT()
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(RequestLoginDtoGuard, LocalAuthGuard)
   @Post('login')
   async login(
     @Req() req: Request,
