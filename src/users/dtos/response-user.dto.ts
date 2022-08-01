@@ -1,19 +1,19 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Exclude, Expose, Type } from "class-transformer";
-import { ResponseRoleDto } from "src/roles/dtos/response-role.dto";
+import { ApiProperty } from '@nestjs/swagger';
+import { Exclude, Expose, Type } from 'class-transformer';
+import { ResponseRoleDto } from 'src/roles/dtos/response-role.dto';
 
 @Exclude()
 export class ResponseUserDto {
-    @Expose()
-    @ApiProperty()
-    id: number;
-  
-    @Expose()
-    @ApiProperty()
-    name: string;
+  @Expose()
+  @ApiProperty()
+  id: number;
 
-    @Expose()
-    @Type(() => ResponseRoleDto)
-    @ApiProperty({isArray: true, type: ResponseRoleDto})
-    roles: ResponseRoleDto[];
+  @Expose()
+  @ApiProperty()
+  name: string;
+
+  @Expose()
+  @Type(() => ResponseRoleDto)
+  @ApiProperty({ isArray: true, type: ResponseRoleDto })
+  roles: ResponseRoleDto[];
 }

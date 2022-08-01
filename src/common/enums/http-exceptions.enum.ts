@@ -10,4 +10,5 @@ export enum HttpExceptionMessages {
   REFRESH_FAIL = 'Authentication failed. Please check refresh token.',
   SAME_PASSWORD_FAIL = 'The password confirmation does not match.',
   VALID_ROLE_NAMES = 'Role names format: ADMIN_ or USER_ and four or more numbers or letters (excluding ADMIN and USER).',
+  VALID_LOGIN_DATA = 'name and password should not be empty',
 }

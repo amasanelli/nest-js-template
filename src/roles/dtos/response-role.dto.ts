@@ -17,6 +17,6 @@ export class ResponseRoleDto {
   description: string;
 
   @Expose()
-  @ApiProperty({enum: RoleType})
+  @ApiProperty({ enum: RoleType })
   type: RoleType;
 }

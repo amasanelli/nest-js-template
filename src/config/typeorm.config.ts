@@ -6,14 +6,14 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  private dataSourceOptions: DataSourceOptions
+  private dataSourceOptions: DataSourceOptions;
 
   constructor(private readonly configService: ConfigService) {
     this.loadConfig();
   }
 
   private loadConfig(): void {
-    this.dataSourceOptions =  {
+    this.dataSourceOptions = {
       type: this.configService.get<MysqlConnectionOptions['type']>(
         'MYSQL_TYPE',
         'mysql',
@@ -25,12 +25,12 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       database: this.configService.get<string>('MYSQL_DATABASE', 'dev-db'),
       entities: ['dist/**/*.entity.js'],
       migrations: ['dist/**/migrations/*.js'],
-      synchronize: true
+      synchronize: true,
     } as MysqlConnectionOptions;
   }
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    return this.dataSourceOptions
+    return this.dataSourceOptions;
   }
 
   createDataSource(): DataSource {

@@ -50,7 +50,7 @@ export class RolesController {
     return plainToInstance(ResponseRoleDto, role);
   }
 
-  @ApiQuery({ name: 'type', required: false, enum: RoleType})
+  @ApiQuery({ name: 'type', required: false, enum: RoleType })
   @ApiBearerAuth('token')
   @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
@@ -59,7 +59,9 @@ export class RolesController {
     description: ApiDocsDescriptions.READ_ROLES_OK,
   })
   @Get()
-  async findAll(@Query('type', new OptionalEnumPipe(RoleType)) type: RoleType): Promise<ResponseRoleDto[]> {
+  async findAll(
+    @Query('type', new OptionalEnumPipe(RoleType)) type: RoleType,
+  ): Promise<ResponseRoleDto[]> {
     const roles: Role[] = await this.rolesService.findAll(type);
     return plainToInstance(ResponseRoleDto, roles);
   }
@@ -72,7 +74,9 @@ export class RolesController {
   })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_ROLE_FAIL })
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<ResponseRoleDto> {
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseRoleDto> {
     const role: Role = await this.rolesService.findOne(id);
     return plainToInstance(ResponseRoleDto, role);
   }
@@ -102,7 +106,9 @@ export class RolesController {
   })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_ROLE_FAIL })
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<ResponseRoleDto> {
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseRoleDto> {
     const role: Role = await this.rolesService.remove(id);
     return plainToInstance(ResponseRoleDto, role);
   }

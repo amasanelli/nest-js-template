@@ -41,7 +41,9 @@ export class UsersController {
   @ApiBadRequestResponse({ description: ApiDocsDescriptions.CREATE_USER_FAIL })
   @UseGuards(AdminGuard)
   @Post()
-  async create(@Body() createUserDto: CreateUserWithRolesDto): Promise<ResponseUserDto> {
+  async create(
+    @Body() createUserDto: CreateUserWithRolesDto,
+  ): Promise<ResponseUserDto> {
     const user: User = await this.usersService.create(createUserDto);
     return plainToInstance(ResponseUserDto, user);
   }
@@ -67,7 +69,9 @@ export class UsersController {
   })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_USER_FAIL })
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<ResponseUserDto> {
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseUserDto> {
     const user: User = await this.usersService.findOne(id);
     return plainToInstance(ResponseUserDto, user);
   }
@@ -97,7 +101,9 @@ export class UsersController {
   })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.DELETE_USER_FAIL })
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<ResponseUserDto> {
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseUserDto> {
     const user: User = await this.usersService.remove(id);
     return plainToInstance(ResponseUserDto, user);
   }

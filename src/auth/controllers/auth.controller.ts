@@ -33,7 +33,7 @@ export class AuthController {
   @Post('login')
   async login(
     @Req() req: Request,
-    @Body() body: RequestLoginDto, // TODO: no validating
+    // @Body() body: RequestLoginDto, // ANCHOR: no validating
   ): Promise<ResponseLoginDto> {
     const token = this.authService.getToken(req.user as User);
     return plainToInstance(ResponseLoginDto, token);

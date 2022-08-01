@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { CreateUserDto } from './create-user.dto';
 
-export class CreateUserWithRolesDto extends CreateUserDto{
+export class CreateUserWithRolesDto extends CreateUserDto {
   @ApiProperty({ type: [Number] })
   @IsNotEmpty()
   @IsArray()

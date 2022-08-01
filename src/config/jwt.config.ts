@@ -11,4 +11,3 @@ export const jwtConfig = {
     expiresIn: configService.get<string>('JWT_ACCESS_EXPIRATION', '60s'),
   },
 };
-

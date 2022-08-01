@@ -21,12 +21,12 @@ export class UsersService {
 
   async create(createUserDto: CreateUserWithRolesDto): Promise<User> {
     const roles: Role[] = [];
-    
+
     for (const id of createUserDto.roleIds) {
       const role: Role = await this.rolesService.findOne(id);
       roles.push(role);
     }
-    
+
     try {
       const user = this.usersRepository.create(createUserDto);
       user.roles = roles;
@@ -74,9 +74,9 @@ export class UsersService {
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
 
-    if(updateUserDto.roleIds) {
+    if (updateUserDto.roleIds) {
       const roles: Role[] = [];
-    
+
       for (const id of updateUserDto.roleIds) {
         const role: Role = await this.rolesService.findOne(id);
         roles.push(role);

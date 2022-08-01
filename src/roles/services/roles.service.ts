@@ -44,9 +44,9 @@ export class RolesService {
   async update(id: number, updateRoleDto: UpdateRoleDto): Promise<Role> {
     const role = await this.findOne(id);
 
-    for(const key in updateRoleDto) {
-      if(updateRoleDto[key]) {
-        role[key] = updateRoleDto[key]
+    for (const key in updateRoleDto) {
+      if (updateRoleDto[key]) {
+        role[key] = updateRoleDto[key];
       }
     }
 
