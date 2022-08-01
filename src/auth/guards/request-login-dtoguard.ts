@@ -12,13 +12,14 @@ export class RequestLoginDtoGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean  {
     const request = context.switchToHttp().getRequest();
-    console.log(request.body);
 
     const object = plainToInstance(RequestLoginDto, request.body);
     const errors = validateSync(object);
+
     if (errors.length > 0) {
       throw new BadRequestException(HttpExceptionMessages.VALID_LOGIN_DATA);
     }
+
     return true;
   }
 }

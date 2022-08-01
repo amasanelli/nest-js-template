@@ -3,7 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { HttpExceptionMessages } from 'src/common/enums/http-exceptions.enum';
 import { Role } from 'src/roles/entities/role.entity';
 import { RolesService } from 'src/roles/services/roles.service';
@@ -17,6 +19,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     private readonly rolesService: RolesService,
+    private readonly configService: ConfigService,
   ) {}
 
   async create(createUserDto: CreateUserWithRolesDto): Promise<User> {
@@ -26,6 +29,11 @@ export class UsersService {
       const role: Role = await this.rolesService.findOne(id);
       roles.push(role);
     }
+
+    createUserDto.password = bcrypt.hashSync(
+      createUserDto.password,
+      +this.configService.get<string>('SALT_ROUNDS', '10'),
+    );
 
     try {
       const user = this.usersRepository.create(createUserDto);

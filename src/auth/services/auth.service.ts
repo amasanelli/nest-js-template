@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 import { HttpExceptionMessages } from 'src/common/enums/http-exceptions.enum';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/services/users.service';
@@ -19,7 +20,7 @@ export class AuthService {
         requestLoginDto.name,
       );
 
-      if (user.password !== requestLoginDto.password) {
+      if (!bcrypt.compareSync(requestLoginDto.password, user.password)) {
         throw new UnauthorizedException('Password mismatch');
       }
 
