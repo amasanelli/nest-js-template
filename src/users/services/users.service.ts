@@ -15,7 +15,7 @@ import { User } from '../entities/user.entity';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(User) private readonly usersRepository: Repository<User>,
     private readonly rolesService: RolesService,
   ) {}
 
@@ -54,7 +54,20 @@ export class UsersService {
         },
       });
     } catch (err) {
-      throw new NotFoundException(HttpExceptionMessages.READ_ROLE_FAIL);
+      throw new NotFoundException(HttpExceptionMessages.READ_USER_FAIL);
+    }
+  }
+
+  async findOneByName(name: string): Promise<User> {
+    try {
+      return await this.usersRepository.findOneOrFail({
+        where: { name },
+        relations: {
+          roles: true,
+        },
+      });
+    } catch (err) {
+      throw new NotFoundException(HttpExceptionMessages.READ_USER_FAIL);
     }
   }
 

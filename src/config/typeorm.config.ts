@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   private dataSourceOptions: DataSourceOptions
 
-  constructor(private configService: ConfigService) {
+  constructor(private readonly configService: ConfigService) {
     this.loadConfig();
   }
 

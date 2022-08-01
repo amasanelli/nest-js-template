@@ -7,16 +7,20 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
 import { ApiDocsDescriptions } from 'src/common/enums/api-docs.enum';
+import { AdminGuard } from 'src/common/guards/admin.guard';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { ResponseUserDto } from '../dtos/response-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
@@ -28,17 +32,22 @@ import { UsersService } from '../services/users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiCreatedResponse({
     type: ResponseUserDto,
     description: ApiDocsDescriptions.CREATE_USER_OK,
   })
   @ApiBadRequestResponse({ description: ApiDocsDescriptions.CREATE_USER_FAIL })
+  @UseGuards(AdminGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<ResponseUserDto> {
     const user: User = await this.usersService.create(createUserDto);
     return plainToInstance(ResponseUserDto, user);
   }
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
     type: ResponseUserDto,
     isArray: true,
@@ -50,6 +59,8 @@ export class UsersController {
     return plainToInstance(ResponseUserDto, users);
   }
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
     type: ResponseUserDto,
     description: ApiDocsDescriptions.READ_USER_OK,
@@ -61,6 +72,8 @@ export class UsersController {
     return plainToInstance(ResponseUserDto, user);
   }
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
     type: ResponseUserDto,
     description: ApiDocsDescriptions.UPDATE_USER_OK,
@@ -76,6 +89,8 @@ export class UsersController {
     return plainToInstance(ResponseUserDto, user);
   }
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
     type: ResponseUserDto,
     description: ApiDocsDescriptions.DELETE_USER_OK,

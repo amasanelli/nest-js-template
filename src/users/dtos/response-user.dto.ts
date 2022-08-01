@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Exclude, Expose } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
 import { ResponseRoleDto } from "src/roles/dtos/response-role.dto";
-import { Role } from "src/roles/entities/role.entity";
 
 @Exclude()
 export class ResponseUserDto {
@@ -14,6 +13,7 @@ export class ResponseUserDto {
     name: string;
 
     @Expose()
+    @Type(() => ResponseRoleDto)
     @ApiProperty({isArray: true, type: ResponseRoleDto})
-    roles: Role[];
+    roles: ResponseRoleDto[];
 }

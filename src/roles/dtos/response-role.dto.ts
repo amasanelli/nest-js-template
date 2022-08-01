@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
-import { RoleType } from 'src/common/enums/role-type.enum';
+import { RoleType } from 'src/roles/enums/role-type.enum';
 
 @Exclude()
 export class ResponseRoleDto {

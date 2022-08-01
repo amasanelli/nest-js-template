@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HttpExceptionMessages } from 'src/common/enums/http-exceptions.enum';
-import { RoleType } from 'src/common/enums/role-type.enum';
+import { RoleType } from 'src/roles/enums/role-type.enum';
 import { Repository } from 'typeorm';
 import { CreateRoleDto } from '../dtos/create-role.dto';
 import { UpdateRoleDto } from '../dtos/update-role.dto';
@@ -14,7 +14,7 @@ import { Role } from '../entities/role.entity';
 @Injectable()
 export class RolesService {
   constructor(
-    @InjectRepository(Role) private rolesRepository: Repository<Role>,
+    @InjectRepository(Role) private readonly rolesRepository: Repository<Role>,
   ) {}
 
   async create(createRoleDto: CreateRoleDto): Promise<Role> {

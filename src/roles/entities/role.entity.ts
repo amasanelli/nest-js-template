@@ -1,4 +1,3 @@
-import { RoleType } from 'src/common/enums/role-type.enum';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
@@ -9,6 +8,7 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+import { RoleType } from '../enums/role-type.enum';
 
 @Entity()
 @Unique(['name', 'type'])

@@ -17,6 +17,17 @@ async function bootstrap() {
     .setTitle('Nest template')
     .setDescription('A Nest JS template')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        description: 'Please enter a valid bearer token',
+        name: 'Authorization',
+        bearerFormat: 'Bearer',
+        scheme: 'Bearer',
+        in: 'Header',
+        type: 'http',
+      },
+      'token',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);

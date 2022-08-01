@@ -5,7 +5,7 @@ export enum HttpExceptionMessages {
   LOGIN_FAIL = 'Authentication failed. Please check email and password.',
   READ_ROLE_FAIL = 'The role id number does not exist.',
   READ_ROLE_NAME_FAIL = 'The role name does not exist.',
-  READ_USER_FAIL = 'The user id number does not exist.',
+  READ_USER_FAIL = 'The user does not exist.',
   READ_USER_ROLE_FAIL = 'The user role id does not exist',
   REFRESH_FAIL = 'Authentication failed. Please check refresh token.',
   SAME_PASSWORD_FAIL = 'The password confirmation does not match.',

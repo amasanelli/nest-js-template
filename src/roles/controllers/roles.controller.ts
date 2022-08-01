@@ -8,39 +8,42 @@ import {
   Delete,
   ParseIntPipe,
   Query,
-  ParseEnumPipe,
-  Injectable,
-  PipeTransform,
-  ArgumentMetadata,
+  UseGuards,
 } from '@nestjs/common';
 import { RolesService } from '../services/roles.service';
 import { CreateRoleDto } from '../dtos/create-role.dto';
 import { UpdateRoleDto } from '../dtos/update-role.dto';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiQuery,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Role } from '../entities/role.entity';
 import { ResponseRoleDto } from '../dtos/response-role.dto';
 import { plainToInstance } from 'class-transformer';
 import { ApiDocsDescriptions } from 'src/common/enums/api-docs.enum';
-import { RoleType } from 'src/common/enums/role-type.enum';
+import { RoleType } from 'src/roles/enums/role-type.enum';
 import { OptionalEnumPipe } from 'src/common/pipes/optional-enum.pipe';
+import { AdminGuard } from 'src/common/guards/admin.guard';
 
 @ApiTags('roles')
 @Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiCreatedResponse({
     type: ResponseRoleDto,
     description: ApiDocsDescriptions.CREATE_ROLE_OK,
   })
   @ApiBadRequestResponse({ description: ApiDocsDescriptions.CREATE_ROLE_FAIL })
+  @UseGuards(AdminGuard)
   @Post()
   async create(@Body() createRoleDto: CreateRoleDto): Promise<ResponseRoleDto> {
     const role: Role = await this.rolesService.create(createRoleDto);
@@ -48,6 +51,8 @@ export class RolesController {
   }
 
   @ApiQuery({ name: 'type', required: false, enum: RoleType})
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
     type: ResponseRoleDto,
     isArray: true,
@@ -59,6 +64,8 @@ export class RolesController {
     return plainToInstance(ResponseRoleDto, roles);
   }
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
     type: ResponseRoleDto,
     description: ApiDocsDescriptions.READ_ROLE_OK,
@@ -70,6 +77,8 @@ export class RolesController {
     return plainToInstance(ResponseRoleDto, role);
   }
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
     type: ResponseRoleDto,
     description: ApiDocsDescriptions.UPDATE_ROLE_OK,
@@ -85,6 +94,8 @@ export class RolesController {
     return plainToInstance(ResponseRoleDto, role);
   }
 
+  @ApiBearerAuth('token')
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
   @ApiOkResponse({
     type: ResponseRoleDto,
     description: ApiDocsDescriptions.DELETE_ROLE_OK,
