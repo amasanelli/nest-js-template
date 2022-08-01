@@ -93,7 +93,16 @@ export class UsersService {
       user.roles = roles;
     }
 
-    for (const key in updateUserDto) {
+    if (updateUserDto.password) {
+      user.password = bcrypt.hashSync(
+        updateUserDto.password,
+        +this.configService.get<string>('SALT_ROUNDS', '10'),
+      );
+    }
+
+    const { password, roleIds, ...rest} = updateUserDto;
+
+    for (const key in rest) {
       if (updateUserDto[key]) {
         user[key] = updateUserDto[key];
       }
