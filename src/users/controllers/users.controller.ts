@@ -21,7 +21,7 @@ import {
 import { plainToInstance } from 'class-transformer';
 import { ApiDocsDescriptions } from 'src/common/enums/api-docs.enum';
 import { AdminGuard } from 'src/common/guards/admin.guard';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { CreateUserWithRolesDto } from '../dtos/create-user-with-roles.dto';
 import { ResponseUserDto } from '../dtos/response-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { User } from '../entities/user.entity';
@@ -41,7 +41,7 @@ export class UsersController {
   @ApiBadRequestResponse({ description: ApiDocsDescriptions.CREATE_USER_FAIL })
   @UseGuards(AdminGuard)
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<ResponseUserDto> {
+  async create(@Body() createUserDto: CreateUserWithRolesDto): Promise<ResponseUserDto> {
     const user: User = await this.usersService.create(createUserDto);
     return plainToInstance(ResponseUserDto, user);
   }

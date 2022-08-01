@@ -8,7 +8,7 @@ import { HttpExceptionMessages } from 'src/common/enums/http-exceptions.enum';
 import { Role } from 'src/roles/entities/role.entity';
 import { RolesService } from 'src/roles/services/roles.service';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { CreateUserWithRolesDto } from '../dtos/create-user-with-roles.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { User } from '../entities/user.entity';
 
@@ -19,7 +19,7 @@ export class UsersService {
     private readonly rolesService: RolesService,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserWithRolesDto): Promise<User> {
     const roles: Role[] = [];
     
     for (const id of createUserDto.roleIds) {

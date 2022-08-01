@@ -17,10 +17,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(10)
   password: string;
-
-  @ApiProperty({ type: [Number] })
-  @IsNotEmpty()
-  @IsArray()
-  @IsNumber({}, { each: true })
-  roleIds: number[];
 }
