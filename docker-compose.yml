@@ -1,32 +1,26 @@
 version: '3.4'
 
 services:
-  # api-dev:
-  #     container_name: api-nest-base
-  #     image: nestjs-api-dev:1.0.0
-  #     build:
-  #         context: .
-  #         target: development
-  #         dockerfile: ./Dockerfile
-  #     command: sh -c "/wait && npm run start"
-  #     ports:
-  #         - 3000:3000
-  #     restart: unless-stopped
-  #     depends_on:
-  #       - mysql
-  #     environment:
-  #       - MYSQL_TYPE=mysql
-  #       - MYSQL_HOST=mysql
-  #       - MYSQL_PORT=3307
-  #       - MYSQL_USERNAME=user
-  #       - MYSQL_PASSWORD=password
-  #       - MYSQL_DATABASE=login-db
-  #       - WAIT_HOSTS=mysql:3307
+  api-dev:
+      container_name: api-nest-template
+      image: nestjs-api-dev:1.0.0
+      build:
+          context: .
+          dockerfile: ./Dockerfile
+      command: sh -c "/wait && npm run start:prod"
+      ports:
+          - 3000:3000
+      restart: unless-stopped
+      depends_on:
+        - mysql
+      environment:
+        - MYSQL_HOST=mysql
+        - WAIT_HOSTS=mysql:3306
 
   mysql:
     image: mysql:8
     restart: always
-    container_name: mysql-nest-base
+    container_name: mysql-nest-template
     environment:
       MYSQL_DATABASE: 'dev-db'
       MYSQL_USER: 'user'
@@ -37,14 +31,3 @@ services:
       - '3306:3306'
     expose:
       - '3306'
-
-  # mongodb:
-  #   image: mongo:5.0.2
-  #   restart: always
-  #   container_name: mongodb-nest-base
-  #   environment:
-  #     - MONGO_INITPG_ROOT_USERNAME=admin
-  #     - MONGO_INITPG_ROOT_PASSWORD=admin
-  #     - MONGO_INITPG_DATABASE=admin
-  #   ports:
-  #     - '27027:27017'
