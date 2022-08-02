@@ -19,8 +19,11 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
+import { MultipleGuards } from 'src/common/decorators/multiple-guards.decorator';
 import { ApiDocsDescriptions } from 'src/common/enums/api-docs.enum';
 import { AdminGuard } from 'src/common/guards/admin.guard';
+import { MultipleAuthGuard } from 'src/common/guards/multiple-auth.guard';
+import { SameUserGuard } from 'src/common/guards/same-user.guard';
 import { CreateUserWithRolesDto } from '../dtos/create-user-with-roles.dto';
 import { ResponseUserDto } from '../dtos/response-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
@@ -33,7 +36,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiCreatedResponse({
     type: ResponseUserDto,
     description: ApiDocsDescriptions.CREATE_USER_OK,
@@ -49,12 +52,13 @@ export class UsersController {
   }
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiOkResponse({
     type: ResponseUserDto,
     isArray: true,
     description: ApiDocsDescriptions.READ_USERS_OK,
   })
+  @UseGuards(AdminGuard)
   @Get()
   async findAll(): Promise<ResponseUserDto[]> {
     const users: User[] = await this.usersService.findAll();
@@ -62,12 +66,14 @@ export class UsersController {
   }
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiOkResponse({
     type: ResponseUserDto,
     description: ApiDocsDescriptions.READ_USER_OK,
   })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_USER_FAIL })
+  @MultipleGuards(SameUserGuard, AdminGuard)
+  @UseGuards(MultipleAuthGuard)
   @Get(':id')
   async findOne(
     @Param('id', ParseIntPipe) id: number,
@@ -77,13 +83,15 @@ export class UsersController {
   }
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiOkResponse({
     type: ResponseUserDto,
     description: ApiDocsDescriptions.UPDATE_USER_OK,
   })
   @ApiBadRequestResponse({ description: ApiDocsDescriptions.UPDATE_USER_FAIL })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_USER_FAIL })
+  @MultipleGuards(SameUserGuard, AdminGuard)
+  @UseGuards(MultipleAuthGuard)
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -94,12 +102,14 @@ export class UsersController {
   }
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiOkResponse({
     type: ResponseUserDto,
     description: ApiDocsDescriptions.DELETE_USER_OK,
   })
-  @ApiNotFoundResponse({ description: ApiDocsDescriptions.DELETE_USER_FAIL })
+  @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_USER_FAIL })
+  @MultipleGuards(SameUserGuard, AdminGuard)
+  @UseGuards(MultipleAuthGuard)
   @Delete(':id')
   async remove(
     @Param('id', ParseIntPipe) id: number,
@@ -108,3 +118,5 @@ export class UsersController {
     return plainToInstance(ResponseUserDto, user);
   }
 }
+
+

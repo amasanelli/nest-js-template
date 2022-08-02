@@ -75,7 +75,7 @@ export class UsersService {
         },
       });
     } catch (err) {
-      throw new NotFoundException(HttpExceptionMessages.READ_USER_FAIL);
+      throw new NotFoundException(HttpExceptionMessages.READ_USER_NAME_FAIL);
     }
   }
 

@@ -29,20 +29,20 @@ export class AuthController {
     type: ResponseLoginDto,
     description: ApiDocsDescriptions.LOGIN_OK,
   })
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @NoJWT()
   @UseGuards(RequestLoginDtoGuard, LocalAuthGuard)
   @Post('login')
   async login(
     @Req() req: Request,
-    // @Body() body: RequestLoginDto, // ANCHOR: no validating
+    // @Body() body: RequestLoginDto, // ANCHOR: no validation here, so validation is done in guards
   ): Promise<ResponseLoginDto> {
     const token = this.authService.getToken(req.user as User);
     return plainToInstance(ResponseLoginDto, token);
   }
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @Get('profile')
   async getProfile(@Req() req: Request): Promise<ResponseUserDto> {
     return plainToInstance(ResponseUserDto, req.user);

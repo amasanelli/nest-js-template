@@ -17,7 +17,7 @@ export class RequestLoginDtoGuard implements CanActivate {
     const errors = validateSync(object);
 
     if (errors.length > 0) {
-      throw new BadRequestException(HttpExceptionMessages.VALID_LOGIN_DATA);
+      throw new BadRequestException(HttpExceptionMessages.INVALID_LOGIN_DATA);
     }
 
     return true;

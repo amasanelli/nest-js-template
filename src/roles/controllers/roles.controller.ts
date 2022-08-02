@@ -37,7 +37,7 @@ export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiCreatedResponse({
     type: ResponseRoleDto,
     description: ApiDocsDescriptions.CREATE_ROLE_OK,
@@ -52,12 +52,13 @@ export class RolesController {
 
   @ApiQuery({ name: 'type', required: false, enum: RoleType })
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiOkResponse({
     type: ResponseRoleDto,
     isArray: true,
     description: ApiDocsDescriptions.READ_ROLES_OK,
   })
+  @UseGuards(AdminGuard)
   @Get()
   async findAll(
     @Query('type', new OptionalEnumPipe(RoleType)) type: RoleType,
@@ -67,12 +68,13 @@ export class RolesController {
   }
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiOkResponse({
     type: ResponseRoleDto,
     description: ApiDocsDescriptions.READ_ROLE_OK,
   })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_ROLE_FAIL })
+  @UseGuards(AdminGuard)
   @Get(':id')
   async findOne(
     @Param('id', ParseIntPipe) id: number,
@@ -82,13 +84,14 @@ export class RolesController {
   }
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiOkResponse({
     type: ResponseRoleDto,
     description: ApiDocsDescriptions.UPDATE_ROLE_OK,
   })
   @ApiBadRequestResponse({ description: ApiDocsDescriptions.UPDATE_ROLE_FAIL })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_ROLE_FAIL })
+  @UseGuards(AdminGuard)
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -99,12 +102,13 @@ export class RolesController {
   }
 
   @ApiBearerAuth('token')
-  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.LOGIN_FAIL })
+  @ApiUnauthorizedResponse({ description: ApiDocsDescriptions.UNAUTHORIZED })
   @ApiOkResponse({
     type: ResponseRoleDto,
     description: ApiDocsDescriptions.DELETE_ROLE_OK,
   })
   @ApiNotFoundResponse({ description: ApiDocsDescriptions.READ_ROLE_FAIL })
+  @UseGuards(AdminGuard)
   @Delete(':id')
   async remove(
     @Param('id', ParseIntPipe) id: number,

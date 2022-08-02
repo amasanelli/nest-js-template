@@ -12,7 +12,7 @@ export class OptionalEnumPipe<T = any> implements PipeTransform<T> {
 
   transform(value: any, metadata: ArgumentMetadata) {
     if (value && !(value in this.enumType)) {
-      throw new BadRequestException(HttpExceptionMessages.VALID_ROLE_NAMES);
+      throw new BadRequestException(HttpExceptionMessages.INVALID_ROLE_TYPE);
     }
     return value;
   }
