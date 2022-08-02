@@ -6,8 +6,8 @@ config();
 const configService = new ConfigService();
 
 export const jwtConfig = {
-  secret: configService.get<string>('JWT_ACCESS_SECRET', 'secret'),
+  secret: configService.get<string>('JWT_ACCESS_SECRET'),
   signOptions: {
-    expiresIn: configService.get<string>('JWT_ACCESS_EXPIRATION', '60s'),
+    expiresIn: configService.get<string>('JWT_ACCESS_EXPIRATION'),
   },
 };

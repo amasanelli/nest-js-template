@@ -17,7 +17,7 @@ export class initialSeeding1659376102761 implements MigrationInterface {
     const configService = new ConfigService();
     const password = bcrypt.hashSync(
       UserSeed.password,
-      +configService.get<string>('SALT_ROUNDS', '10'),
+      +configService.get<string>('SALT_ROUNDS'),
     );
 
     const user: ResultSetHeader = await queryRunner.query(

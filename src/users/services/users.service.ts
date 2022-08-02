@@ -32,7 +32,7 @@ export class UsersService {
 
     createUserDto.password = bcrypt.hashSync(
       createUserDto.password,
-      +this.configService.get<string>('SALT_ROUNDS', '10'),
+      +this.configService.get<string>('SALT_ROUNDS'),
     );
 
     try {
@@ -96,7 +96,7 @@ export class UsersService {
     if (updateUserDto.password) {
       user.password = bcrypt.hashSync(
         updateUserDto.password,
-        +this.configService.get<string>('SALT_ROUNDS', '10'),
+        +this.configService.get<string>('SALT_ROUNDS'),
       );
     }
 
