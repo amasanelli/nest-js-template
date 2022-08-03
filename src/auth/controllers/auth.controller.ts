@@ -15,6 +15,7 @@ import { ResponseUserDto } from 'src/users/dtos/response-user.dto';
 import { User } from 'src/users/entities/user.entity';
 import { RequestLoginDto } from '../dtos/request-login.dto';
 import { ResponseLoginDto } from '../dtos/response-login.dto';
+import { GoogleGuard } from '../guards/google.guard';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { RequestLoginDtoGuard } from '../guards/request-login-dtoguard';
 import { AuthService } from '../services/auth.service';
@@ -37,6 +38,19 @@ export class AuthController {
     @Req() req: Request,
     // @Body() body: RequestLoginDto, // ANCHOR: no validation here, so validation is done in guards
   ): Promise<ResponseLoginDto> {
+    const token = this.authService.getToken(req.user as User);
+    return plainToInstance(ResponseLoginDto, token);
+  }
+
+  @NoJWT()
+  @Get('login/google')
+  @UseGuards(GoogleGuard)
+  async loginGoogle(@Req() req: Request) {}
+
+  @NoJWT()
+  @Get('login/google/redirect')
+  @UseGuards(GoogleGuard)
+  async loginGoogleRedirect(@Req() req: Request): Promise<ResponseLoginDto> {
     const token = this.authService.getToken(req.user as User);
     return plainToInstance(ResponseLoginDto, token);
   }

@@ -10,7 +10,7 @@ export class ResponseUserDto {
 
   @Expose()
   @ApiProperty()
-  name: string;
+  email: string;
 
   @Expose()
   @Type(() => ResponseRoleDto)

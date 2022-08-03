@@ -17,7 +17,7 @@ export enum ApiDocsDescriptions {
   READ_USER_FAIL = 'Occurs in case the given id number does not correspond to any registered user.',
   READ_USER_OK = 'Returns the information of the user.',
   READ_USERS_OK = 'Returns an array of registered users.',
-  CREATE_USER_FAIL = 'Occurs in case the given user name is already registered.',
+  CREATE_USER_FAIL = 'Occurs in case the given user email is already registered.',
   CREATE_USER_OK = 'Returns the information of the created user.',
   DELETE_ROLE_OK = 'Returns the information of the deleted role.',
   UPDATE_ROLE_FAIL = 'Occurs when a there is a problem updating the role.',

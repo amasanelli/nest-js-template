@@ -66,10 +66,10 @@ export class UsersService {
     }
   }
 
-  async findOneByName(name: string): Promise<User> {
+  async findOneByEmail(email: string): Promise<User> {
     try {
       return await this.usersRepository.findOneOrFail({
-        where: { name },
+        where: { email },
         relations: {
           roles: true,
         },

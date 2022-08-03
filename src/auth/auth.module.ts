@@ -9,6 +9,7 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './controllers/auth.controller';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthService } from './services/auth.service';
+import { GoogleStrategy } from './strategies/google.strategy';
 import { JWTStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 
@@ -18,6 +19,7 @@ import { LocalStrategy } from './strategies/local.strategy';
     AuthService,
     LocalStrategy,
     JWTStrategy,
+    GoogleStrategy,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

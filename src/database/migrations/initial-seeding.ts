@@ -21,7 +21,7 @@ export class initialSeeding1659376102761 implements MigrationInterface {
     );
 
     const user: ResultSetHeader = await queryRunner.query(
-      `INSERT INTO \`user\` (\`name\`, \`password\`) VALUES ("${UserSeed.name}", "${password}")`,
+      `INSERT INTO \`user\` (\`email\`, \`password\`) VALUES ("${UserSeed.email}", "${password}")`,
     );
     await queryRunner.query(
       `INSERT INTO \`user_roles_role\` (\`userId\`, \`roleId\`) VALUES ("${user.insertId}", "${role.insertId}")`,

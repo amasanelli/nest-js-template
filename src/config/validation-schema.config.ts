@@ -20,4 +20,5 @@ export const validationSchema = Joi.object({
 
   GOOGLE_AUTH_CLIENT_ID: Joi.string().required(),
   GOOGLE_AUTH_CLIENT_SECRET: Joi.string().required(),
+  GOOGLE_AUTH_CALLBACK_URL: Joi.string().required(),
 });
